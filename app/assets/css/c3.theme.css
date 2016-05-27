@@ -1,0 +1,61 @@
+.c3{
+    margin-top: -5px;
+    margin-bottom: -3px;
+    margin-right: 5px;
+}
+
+.c3-line, .c3-focused.c3-line {
+  stroke-width: 3px !important;
+}
+
+.c3-circle {
+  stroke-width: 2px !important;
+  stroke: #fff;
+}
+
+.c3-legend-item-tile {
+    shape-rendering: initial;
+}
+
+.c3-grid, .c3-xgrid, .c3-ygrid{
+    stroke-dasharray: inherit;
+}
+
+.c3-grid line, .c3-axis line{
+    stroke:#EAEAEA;
+    stroke-width: 1px;
+}
+
+.c3-axis-y path{
+    stroke:none;
+}
+
+.c3-axis-x path{
+    stroke:#EAEAEA;
+    stroke-width: 1.5px;
+}
+
+.c3-axis .tick line {
+    display: none;
+}
+
+g.c3-axis.c3-axis-x text {
+    text-anchor: center !important;
+}
+
+.c3-ygrid {
+   fill: #fff;
+}
+
+.c3-legend-background {
+    opacity: 0;
+    stroke: none;
+}
+
+.c3-legend-item text {
+    font-size: 10px;
+}
+
+g.c3-axis.c3-axis text {
+    font-size: 10px;
+}
