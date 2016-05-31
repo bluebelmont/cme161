@@ -16,8 +16,10 @@ def send_assets(path):
 # do this
 @app.route('/three/<path:path>')
 def send_assets_html(path):
-	print "made it"
-	return send_from_directory('app/assets/html/', path)
+	print "made it" 
+	file = send_from_directory('app/assets/html/', path)
+	print file
+	return file
 
 if __name__ == "__main__":
 	port = int(os.environ.get("PORT", 5050))
