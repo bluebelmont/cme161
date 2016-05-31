@@ -68,7 +68,10 @@ Boid.prototype.create_mesh = function() {
         * see http://threejs.org/docs/#Reference/Objects/Mesh
     **/
 
-    this.mesh = undefined;
+    this.mesh = new THREE.Mesh(
+        this.geometry,
+        this.material
+    );
 
     if(typeof(this.mesh) == "undefined") console.log("Action Required: You need to set a boid mesh.") // delete this line
 
