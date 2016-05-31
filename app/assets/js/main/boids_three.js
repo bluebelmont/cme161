@@ -119,15 +119,17 @@ gui.add(controls_state, 'show_bounding_box')
         else    { container.remove(bounding_box); }
     });
 
-/**
-    * Actions Required:
-    *  add sliders for the _neighborhoodRadius, _maxSteerForce, and _maxSpeed
-        * see the tutorial for a description of how the boids object works
-    * hint: all of these involve changing properties of each boid b
-        * b._neighborhoodRadius = value
-    * hint: look at the loop in the animate() function, run a similar loop when the slider is changed
-    * hint: do this requirement last
-**/
+// * Actions Required:
+//     *  add sliders for the following Boid properties: coeff_alignment, coeff_cohesion, and coeff_separation
+//         see the tutorial for a description of how the boids object works
+//         TLDR: each boid's movement is a function of alignment + cohesion + separation with respect to other boids
+//         you should see how moving the slider affects the flocking
+//     * the range for each should be between 0 and 1, but you can experiement with larger ranges
+//     * hint: all of these involve changing properties of each boid b
+//         var b = boid[i]
+//         b.coeff_alignment = value
+//     * hint: look at the loop in the animate() function, run a similar loop when the slider is changed
+//     * hint: do this requirement last
 if(gui.__controllers.length == 6) console.log("Action Required: add required dat.gui sliders"); // delete this line
 
 // --------------------------------------------------------- 
@@ -137,6 +139,11 @@ var n = 200,
     boids = [];
 
 for (var i = 0; i < n; i++) {
+    var b = new Boid(SCENE_WIDTH, SCENE_HEIGHT);
+    b.set_parameters();
+    b.init_mesh_obj(); 
+    container.add(b.mesh);
+    boids.push(b);
     /**
         * Actions Required:
         * build boid objects 
@@ -148,7 +155,6 @@ for (var i = 0; i < n; i++) {
             * container.add(b.mesh);
             * boids.push(b);
     **/
-    if(i == 1) console.log("Action Required: initialize boid objects"); // delete this line
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -162,7 +168,9 @@ function animate() {
 
     // render boids
     for (var i = 0; i < n; i++) {
-
+        b = boids[i];
+        b.run(boids);
+        b.update_mesh;
         /**
             * Actions Required:
             *  update the position of each boid b
