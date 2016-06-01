@@ -49,6 +49,8 @@ var Boid = function() {
     this.setAvoidWalls(true);
     this.setWorldSize(500, 500, 400);
 
+    this.solo_flip = true;
+
     this.run = function(boids) {
 
         if (_avoidWalls) {
@@ -177,6 +179,8 @@ var Boid = function() {
         return velSum;
     }
 
+
+
     this.cohesion = function(boids) {
 
         var boid, distance,
@@ -194,8 +198,22 @@ var Boid = function() {
             if (distance > 0 && distance <= _neighborhoodRadius) {
                 posSum.add(boid.position);
                 count++;
+                // if (1 == 1) console.log(this.mesh.material.color.getHSL())
             }
+            new_hsl = boid.mesh.material.color.getHSL();
+            curr_hsl = this.mesh.material.color.getHSL();
+            if (distance <= _neighborhoodRadius/3) {
+                boid.mesh.material.color.setHSL(curr_hsl.h, .5, .5);
+            }
+        }
 
+        if (count < 1 && this.solo_flip) {
+            this.solo_flip = false;
+            this.mesh.material.color.setHSL(Math.random(), .5, .5);
+        }
+        else
+        {
+            this.solo_flip = true;
         }
 
         if (count > 0) {

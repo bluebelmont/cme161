@@ -138,6 +138,8 @@ if(gui.__controllers.length == 6) console.log("Action Required: add required dat
 var n = 200,
     boids = [];
 
+
+
 for (var i = 0; i < n; i++) {
     var b = new Boid(SCENE_WIDTH, SCENE_HEIGHT);
     b.set_parameters();
@@ -160,7 +162,10 @@ for (var i = 0; i < n; i++) {
 // ------------------------------------------------------------------------------------------------
 // animation loop
 
-var update_boids_warning = true; // delete this line
+// var update_boids_warning = true; // delete this line
+
+
+var range_momentums = [0, 4];
 
 function animate() {
     // start stats recording
@@ -170,7 +175,8 @@ function animate() {
     for (var i = 0; i < n; i++) {
         b = boids[i];
         b.run(boids);
-        b.update_mesh;
+        new_momemtums = b.update_mesh(range_momentums);
+        range_momentums = new_momemtums;
         /**
             * Actions Required:
             *  update the position of each boid b
@@ -183,7 +189,7 @@ function animate() {
                 * b = boids[i];
             * when you're done, delete the update_boids_warning var above
         **/
-        if(i == 1 && update_boids_warning){ console.log("Action Required: update boid objects"); update_boids_warning = false; } // delete this line
+        
     }
 
     // render scene
