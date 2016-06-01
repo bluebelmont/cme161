@@ -20,6 +20,7 @@ var Boid = function() {
     this.coeff_alignment = 1,
     this.coeff_cohesion = 1,
     this.coeff_separation = 1;
+    this.color_rogueness = 1;
 
 
     this.position = new Vector3();
@@ -205,8 +206,7 @@ var Boid = function() {
                 boid.mesh.material.color.setHSL(curr_hsl.h, .5, .5);
             }
         }
-        if (count < 1) {
-     
+        if (count < this.color_rogueness) {
             this.mesh.material.color.setHSL(Math.random(), .5, .5);
         }
         

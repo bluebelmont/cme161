@@ -80,7 +80,8 @@ var controls_state = {
     "show_bounding_box": true,
     "coeff_alignment": 1,
     "coeff_cohesion": 1,
-    "coeff_separation": 1
+    "coeff_separation": 1,
+    "color_rogueness": 1
 };
 
 gui.add(controls_state, 'ambient_light')
@@ -166,6 +167,13 @@ gui.add(controls_state, 'coeff_separation', 0, 1)
 .onChange(function(value) {
     for (var i = 0; i < n; i++) {
         boids[i].coeff_separation = value;
+    }
+});
+
+gui.add(controls_state, 'color_rogueness', 0, 14).step(1)
+.onChange(function(value) {
+    for (var i = 0; i < n; i++) {
+        boids[i].color_rogueness = value;
     }
 });
 
