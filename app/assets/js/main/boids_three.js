@@ -1,10 +1,3 @@
-/**
-    * Actions Required:
-    * viz_container_id is the id of the *div* in the html into which we will add the gui and stats elements
-    * viz_canvas_id is the id of the *canvas* in the html into which the visualization is rendered
-    * change these when you port to your heroku portfolio, but leave it as is for now
-    * example: in your portfolio, you might have a container called "boids_container"
-**/
 var viz_container_id = "container"; 
 var viz_canvas_id = "three_boid"; 
 
@@ -84,59 +77,53 @@ var controls_state = {
     "ambient_light_intensity": 1,
     "directional_light_intensity": 1,
     "show_axis": true,
-    "show_bounding_box": true
+    "show_bounding_box": true,
+    "coeff_alignment": 1,
+    "coeff_cohesion": 1,
+    "coeff_separation": 1
 };
 
 gui.add(controls_state, 'ambient_light')
-    .onChange(function(on) {
-        scene.getObjectByName('ambient_light').intensity = 1 * on;
-    });
+.onChange(function(on) {
+    scene.getObjectByName('ambient_light').intensity = 1 * on;
+});
 
 gui.add(controls_state, 'directional_light')
-    .onChange(function(on) {
-        scene.getObjectByName('directional_light').intensity = 1 * on;
-    });
+.onChange(function(on) {
+    scene.getObjectByName('directional_light').intensity = 1 * on;
+});
 
 gui.add(controls_state, 'ambient_light_intensity', 0, 1)
-    .onChange(function(value) {
-        scene.getObjectByName('ambient_light').intensity = value;
-    });
+.onChange(function(value) {
+    scene.getObjectByName('ambient_light').intensity = value;
+});
 
 gui.add(controls_state, 'directional_light_intensity', 0, 1)
-    .onChange(function(value) {
-        scene.getObjectByName('directional_light').intensity = value;
-    });
+.onChange(function(value) {
+    scene.getObjectByName('directional_light').intensity = value;
+});
 
 gui.add(controls_state, 'show_axis')
-    .onChange(function(on) {
-        if (on) { container.add(axes.mesh);    } 
-        else    { container.remove(axes.mesh); }
-    });
+.onChange(function(on) {
+    if (on) { container.add(axes.mesh);    } 
+    else    { container.remove(axes.mesh); }
+});
 
 gui.add(controls_state, 'show_bounding_box')
-    .onChange(function(on) {
-        if (on) { container.add(bounding_box);    } 
-        else    { container.remove(bounding_box); }
-    });
+.onChange(function(on) {
+    if (on) { container.add(bounding_box);    } 
+    else    { container.remove(bounding_box); }
+});
 
-// * Actions Required:
-//     *  add sliders for the following Boid properties: coeff_alignment, coeff_cohesion, and coeff_separation
-//         see the tutorial for a description of how the boids object works
-//         TLDR: each boid's movement is a function of alignment + cohesion + separation with respect to other boids
-//         you should see how moving the slider affects the flocking
-//     * the range for each should be between 0 and 1, but you can experiement with larger ranges
-//     * hint: all of these involve changing properties of each boid b
-//         var b = boid[i]
-//         b.coeff_alignment = value
-//     * hint: look at the loop in the animate() function, run a similar loop when the slider is changed
-//     * hint: do this requirement last
-if(gui.__controllers.length == 6) console.log("Action Required: add required dat.gui sliders"); // delete this line
+
 
 // --------------------------------------------------------- 
 // add boids
 
+
+
 var n = 200,
-    boids = [];
+boids = [];
 
 
 
@@ -156,8 +143,33 @@ for (var i = 0; i < n; i++) {
             * b.init_mesh_obj(); 
             * container.add(b.mesh);
             * boids.push(b);
-    **/
+            **/
 }
+
+
+//add datgui slides for boid properties
+gui.add(controls_state, 'coeff_alignment', 0, 1)
+.onChange(function(value) {
+    for (var i = 0; i < n; i++) {
+        boids[i].coeff_alignment = value;
+    }
+});
+
+gui.add(controls_state, 'coeff_cohesion', 0, 1)
+.onChange(function(value) {
+    for (var i = 0; i < n; i++) {
+        boids[i].coeff_cohesion = value;
+    }
+});
+
+gui.add(controls_state, 'coeff_separation', 0, 1)
+.onChange(function(value) {
+    for (var i = 0; i < n; i++) {
+        boids[i].coeff_separation = value;
+    }
+});
+
+
 
 // ------------------------------------------------------------------------------------------------
 // animation loop
@@ -188,9 +200,9 @@ function animate() {
             * hint: the first line is
                 * b = boids[i];
             * when you're done, delete the update_boids_warning var above
-        **/
-        
-    }
+            **/
+
+        }
 
     // render scene
     renderer.render(scene, camera);

@@ -200,21 +200,16 @@ var Boid = function() {
                 count++;
                 // if (1 == 1) console.log(this.mesh.material.color.getHSL())
             }
-            new_hsl = boid.mesh.material.color.getHSL();
             curr_hsl = this.mesh.material.color.getHSL();
             if (distance <= _neighborhoodRadius/3) {
                 boid.mesh.material.color.setHSL(curr_hsl.h, .5, .5);
             }
         }
-
-        if (count < 1 && this.solo_flip) {
-            this.solo_flip = false;
+        if (count < 1) {
+     
             this.mesh.material.color.setHSL(Math.random(), .5, .5);
         }
-        else
-        {
-            this.solo_flip = true;
-        }
+        
 
         if (count > 0) {
             posSum.divideScalar(count);
