@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+	<meta charset="utf-8">
+	<title>CME 161 Data Visualization</title>
+
+	<!-- site dependencies -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+	<!-- begin wrap -->		
+	<div id="wrap">
+
+		<!-- begin container -->
+		<div class="container">
+
+			<!-- begin content -->
+			<div id="content">
+
+				<!-- begin row -->
+				<div class="row">
+
+					<!-- begin header -->
+					<div class=".col-xs-12 .col-md-8">
+						<h1>Visualization Portfolio of Blue Sheffer</h1>
+						<h4><a href='http://www.datavizcourse.com/#/' target='_blank'>CME 161: Data Visualization</a> <small>Spring 2016</small></h4>
+						<hr>
+					</div>
+					<!-- end header -->
+
+					<!-- begin viz 1 -->
+					<div class=".col-xs-12 .col-md-8">
+						<h3>
+							Particle Simulation
+						</h3>
+
+						<p>
+							This is a basic particle simulation visualization based on a <a href=http://www.datavizcourse.com/#/tutorial_three_particle>CME 161 tutorial</a>.
+							<div id="container"></div>
+							<canvas id="three_particle"></canvas>
+
+							<hr>
+
+						</div>
+
+					</div>
+					<!-- end row -->
+
+				</div> 
+				<!-- end content -->
+
+			</div>
+			<!-- end container -->
+
+		</div>
+		<!-- end wrap -->	
+
+		<!-- begin footer -->
+		<div id="footer">
+			<div class="container">
+				<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="../../assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Blue Sheffer</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/dderiso/stanford_data_viz_course" rel="dct:source">https://github.com/dderiso/stanford_data_viz_course</a>.</p>
+			</div>
+		</div>
+		<!-- end footer -->
+
+		<!-- dependencies -->
+		<script src="../../assets/js/libs/renderers/three/	three.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+		<!-- Physics - Particle -->
+		<script src="../../assets/js/libs/physics/physics_particle_simple.js"></script>
+		<!-- Render - Particle -->
+		<script src="../../assets/js/libs/renderers/render_particle.js"></script>
+
+
+		<!-- custom scripts -->
+	</body>
+	</html>

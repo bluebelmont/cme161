@@ -14,19 +14,20 @@ def index():
 def send_assets(path):
     return send_from_directory('app/assets/', path)
 
-# do this
-@app.route('/three/<path:path>')
+@app.route('/viz/<path:path>')
 def send_assets_html(path):
-	print "made it" 
-	file = send_from_directory('app/assets/html/', path)
-	print file
-	return file
+	return send_from_directory('app/assets/html/', path)
+
+@app.route('/viz')
+def send_viz():
+	return send_from_directory('app/assets/html','viz.html')
 
 @app.route('/trellis', methods=['GET'])
 def get_trellis():
 	with open('app/assets/data/trellis.json') as data_file:
 		return json.dumps(json.load(data_file))
 
+@app.route('/trellis/limit/', defaults={'n_entries': 100})
 @app.route('/trellis/limit/<int:n_entries>', methods=['GET'])
 def get_trellis_limit(n_entries):
 	with open('app/assets/data/trellis.json') as data_file:
@@ -59,6 +60,7 @@ def get_graph():
 	with open('app/assets/data/trellis.json') as data_file:
 		return json.dumps(make_data_graph(json.load(data_file)))
 
+@app.route('/graph/limit/', defaults={'n_entries': 100})
 @app.route('/graph/limit/<int:n_entries>', methods=['GET'])
 def get_graph_limit(n_entries):
 	with open('app/assets/data/trellis.json') as data_file:
@@ -66,7 +68,7 @@ def get_graph_limit(n_entries):
 
 if __name__ == "__main__":
 	port = int(os.environ.get("PORT", 5050))
-	app.run(host='0.0.0.0', port=port, debug=True)
+	app.run(host='0.0.0.0', port=port, debug=False)
 
 # set debug=True if you want to have auto-reload on changes
 # this is great for developing

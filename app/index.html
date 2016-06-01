@@ -7,10 +7,6 @@
 
 	<!-- site dependencies -->
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="assets/css/c3.min.css" rel="stylesheet">
-	<link href="assets/css/c3.theme.css" rel="stylesheet">
-	<link href="assets/css/dc.css" rel="stylesheet">
-	<link href="assets/css/slider_style.css" rel="stylesheet">
 	<link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -28,160 +24,22 @@
 
 					<!-- begin header -->
 					<div class=".col-xs-12 .col-md-8">
-						<h1>Visualization Portfolio of Blue Sheffer</h1>
-						<h4><a href='http://www.datavizcourse.com/#/' target='_blank'>CME 161: Data Visualization</a> <small>Spring 2016</small></h4>
+						<h1>Blue Sheffer</h1>
 						<hr>
 					</div>
 					<!-- end header -->
 
 					<!-- begin viz 1 -->
-					<div class=".col-xs-12 .col-md-8" id="baseball">
+					<div class=".col-xs-12 .col-md-8" id="vizulations">
 						<h3>
-							Learning How to Pitch your Data: Crossfilter and the Lehman Baseball Dataset
-						</h3>
+							<a href="/viz">Visualization Portfolio</a>
+						</h3>		
 
 						<p>
-							In this visualization, I visualize Lahman's 
-							dataset on all-star games baseball 
-							games. There are a number of different charts controlled by 4 filters. Filtering was implemented with <a href="https://github.com/crossfilter/crossfilter" target="_blank">Crossfilter</a>. You can find out 
-							more information about this data set 
-							<a href="http://www.seanlahman.com/baseball-archive/statistics/" target="_blank">
-								here</a>.
-							</p>
-
-							<hr>
-
-							<div class="well">
-								Filter # of Games Played by players:&nbsp&nbsp
-								<input id="cf_n_games_slider" type="text" />
-							</div>
-
-							<div class="well">
-								# of Games Played by players Range:&nbsp&nbsp <span id="cf_n_games_slider_txt"></span>
-							</div>
-
-							<div class="well">
-								Filter Year:&nbsp&nbsp
-								<input id="cf_year_slider" type="text" />
-							</div>
-
-							<div class="well">
-								Year Range:&nbsp&nbsp <span id="cf_year_slider_text"></span>
-							</div>
-							Player Search:
-							<input type="search" id="cf_playerSearch">
-							<br \> Team Search:
-							<input type="search" id="cf_teamSearch">
-
-
-							<hr>
-
-						</div>
-						<a href="three/particle.html">Click here to view particles</a>
-						<div class=".col-xs-12 .col-md-8">
-							<h3>
-								Tea Tree Visualization
-							</h3>
-
-							<p>
-								This visualization represents the hierarchical orginazation of types of teas. Each node is collapsable by click, and the entire visualization adapts to the size of the window based on the as nodes open and close. The library used is <a href="https://github.com/mbostock/d3" target="_blank">d3.js</a>. 
-							</p>
-
-							<hr>
-
-
-							<div id="d3_hierarchy"></div>
-
-							<hr>
-
-						</div>
-						<!-- end viz 1 -->
-
-
-						<!-- begin viz 2 -->
-						<div class=".col-xs-12 .col-md-8">
-							<h3>
-								Visualizing our Climate Budget
-							</h3>
-
-							<p>
-								This visualization shows global carbon emissions for the past 270 years and an estimate of how much more we can emit if we want to keep the earth within 2 degrees celcius of warming. The library used is <a href="https://github.com/c3js/c3" target = "_blank">C3</a>. Data comes from <a href="http://data.okfn.org/data/core/co2-fossil-global" target="_blank">OKFNUS</a> and the <a href="http://iopscience.iop.org/article/10.1088/1748-9326/10/10/105004/meta." target="_blank">Center for Internation Climate and Environmental Research</a>.
-							</p>
-
-							<hr>
-
-							<div id="c3_climate_budget">
-								<div class="container-fluid" style="margin-top:10px;">
-									<div class="row">
-										<div class="col-md-8">
-											<div id="chart"></div>
-										</div>
-										<div class="col-md-4 well pull-right">
-											<h2>Our Climate Budget</h2>
-											<hr>
-											<p id="c3_message"></p>
-											<button id="c3_start_btn" class="btn btn-primary pull-right">Start</button>
-										</div>
-									</div>
-								</div>
-
-							</div>
-
-							<hr>
-
-						</div>
-						<!-- end viz 2 -->
-
-						<!--begin viz 3-->
-						<div class=".col-xs-12 .col-md-8">
-							<h3>
-								Flower Filtering
-							</h3>
-
-							<p>
-								This visualization is an example of brushing and linking with <a href="https://github.com/dc-js" target="_blank">DC.js</a> and <a href="https://github.com/crossfilter/crossfilter" target="_blank">Crossfilter</a>. Properties of flowers from the <a href="https://archive.ics.uci.edu/ml/datasets/Iris" target="_blank">Iris Dataset</a> are displayed and seperate charts, and filters imposed on any chart (created by clicking or draggin) affect all other charts.
-							</p>
-
-							<hr>
-
-							<div id="dc_resetButton"> </div>
-
-							<div style="float:left;">
-								<h3>Sepal Length</h3>
-								<div id="dc_sepal_length_chart"></div>
-							</div>
-
-							<div style="float:left;">
-								<h3>Species</h3>
-								<div id="dc_species_chart"></div>
-							</div>
-
-							<div style="float:left;">
-								<h3>Sepal Width</h3>
-								<div id="dc_sepal_width_chart"></div>
-							</div>
-
-							<div style="float:left;">
-								<h3>Petal Length</h3>
-								<div id="dc_petal_length_chart"></div>
-							</div>
-
-							<div style="float:left;">
-								<h3>Petal Width</h3>
-								<div id="dc_petal_width_chart"></div>
-							</div>
-
-
+							
 
 
 						</div>
-						<!-- end viz 3 -->
-
-
-						<!--begin viz 4-->
-
-						<!-- end viz 4 -->
-
 					</div>
 					<!-- end row -->
 
@@ -194,30 +52,5 @@
 		</div>
 		<!-- end wrap -->	
 
-		<!-- begin footer -->
-		<div id="footer">
-			<div class="container">
-				<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Blue Sheffer</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/dderiso/stanford_data_viz_course" rel="dct:source">https://github.com/dderiso/stanford_data_viz_course</a>.</p>
-			</div>
-		</div>
-		<!-- end footer -->
-
-		<!-- dependencies -->
-		<script src='assets/js/jquery.min.js'></script>
-		<script src='assets/js/bootstrap-slider.js'></script>
-		<script src='assets/js/d3.min.js'></script>
-		<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script> -->
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.7/crossfilter.js'></script>
-
-		<script src='assets/js/c3.min.js'></script>
-		<!-- <script src='assets/js/crossfilter.min.js'></script> -->
-		<script src='assets/js/dc.min.js'></script>
-		<script src='assets/js/underscore-min.js'></script>
-
-		<!-- custom scripts -->
-		<script src='assets/js/baseball/baseball.js'></script>
-		<script src='assets/js/climate/climate.js'></script>
-		<script src='assets/js/flowers/flower.js'></script>
-		<script src='assets/js/tea/tea.js'></script>
 	</body>
 	</html>

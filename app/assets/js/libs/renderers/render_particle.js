@@ -4,7 +4,7 @@ var SCENE_WIDTH = SCENE_HEIGHT = 500;
 var canvas = document.getElementById("three_particle");
 var renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true}); // use webgl renderer (GPU!)
 renderer.setSize(SCENE_WIDTH, SCENE_HEIGHT); // Resizes the output canvas to (width, height), and also sets the viewport to fit that size, starting in (0, 0).
-document.body.appendChild(renderer.domElement); // attach renderer to canvas
+document.getElementById("container").appendChild(renderer.domElement); // attach renderer to canvas
 
 // scene - where we put our models
 var scene = new THREE.Scene();

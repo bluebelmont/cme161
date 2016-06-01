@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+	<meta charset="utf-8">
+	<title>CME 161 Data Visualization</title>
+
+	<!-- site dependencies -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../assets/css/slider_style.css" rel="stylesheet">
+	<link href="../../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+	<!-- begin wrap -->		
+	<div id="wrap">
+
+		<!-- begin container -->
+		<div class="container">
+
+			<!-- begin content -->
+			<div id="content">
+
+				<!-- begin row -->
+				<div class="row">
+
+					<!-- begin header -->
+					<div class=".col-xs-12 .col-md-8">
+						<h1>Visualization Portfolio of Blue Sheffer</h1>
+						<h4><a href='http://www.datavizcourse.com/#/' target='_blank'>CME 161: Data Visualization</a> <small>Spring 2016</small></h4>
+						<hr>
+					</div>
+					<!-- end header -->
+
+					<!-- begin viz 1 -->
+					<div class=".col-xs-12 .col-md-8" id="baseball">
+						<h3>
+							Learning How to Pitch your Data: Crossfilter and the Lehman Baseball Dataset
+						</h3>
+
+						<p>
+							In this visualization, I visualize Lahman's 
+							dataset on all-star games baseball 
+							games. There are a number of different charts controlled by 4 filters. Filtering was implemented with <a href="https://github.com/crossfilter/crossfilter" target="_blank">Crossfilter</a>. You can find out 
+							more information about this data set 
+							<a href="http://www.seanlahman.com/baseball-archive/statistics/" target="_blank">
+								here</a>.
+							</p>
+
+							<hr>
+
+							<div class="well">
+								Filter # of Games Played by players:&nbsp&nbsp
+								<input id="cf_n_games_slider" type="text" />
+							</div>
+
+							<div class="well">
+								# of Games Played by players Range:&nbsp&nbsp <span id="cf_n_games_slider_txt"></span>
+							</div>
+
+							<div class="well">
+								Filter Year:&nbsp&nbsp
+								<input id="cf_year_slider" type="text" />
+							</div>
+
+							<div class="well">
+								Year Range:&nbsp&nbsp <span id="cf_year_slider_text"></span>
+							</div>
+							Player Search:
+							<input type="search" id="cf_playerSearch">
+							<br \> Team Search:
+							<input type="search" id="cf_teamSearch">
+
+
+							<hr>
+
+						</div>
+						
+
+					</div>
+					<!-- end row -->
+
+				</div> 
+				<!-- end content -->
+
+			</div>
+			<!-- end container -->
+
+		</div>
+		<!-- end wrap -->	
+
+		<!-- begin footer -->
+		<div id="footer">
+			<div class="container">
+				<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="../../assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Blue Sheffer</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/dderiso/stanford_data_viz_course" rel="dct:source">https://github.com/dderiso/stanford_data_viz_course</a>.</p>
+			</div>
+		</div>
+		<!-- end footer -->
+
+		<!-- dependencies -->
+		<script src='../../assets/js/jquery.min.js'></script>
+		<script src='../../assets/js/bootstrap-slider.js'></script>
+		<script src='../../assets/js/d3.min.js'></script>
+		<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script> -->
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.7/crossfilter.js'></script>
+
+		<script src='../../assets/js/underscore-min.js'></script>
+
+		<!-- custom scripts -->
+		<script src='../../assets/js/baseball/baseball.js'></script>
+	</body>
+	</html>

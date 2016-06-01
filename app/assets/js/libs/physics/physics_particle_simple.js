@@ -98,7 +98,6 @@ var Particle_Simple = function(width_in, height_in) {
         this.x += this.x_v;
         this.z_v += kz * z_sign;
         this.z += this.z_v;
-        console.log('boost');
     }
 }
 
