@@ -45,7 +45,7 @@ def main():
 			all_time_dict[t] =  t_dict
 		d['time'] = all_time_dict
 		with open(conditions[cond] + 'data.js', 'w') as outfile:
-			json.dump(d, outfile)
+			json.dump(d, outfile, sort_keys=True, indent=4)
 
 
 	
