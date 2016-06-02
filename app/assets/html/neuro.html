@@ -7,6 +7,7 @@
 
 	<!-- site dependencies -->
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../assets/css/slider_style.css" rel="stylesheet">
 	<link href="../../assets/css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -33,13 +34,17 @@
 					<!-- begin viz 1 -->
 					<div class=".col-xs-12 .col-md-8">
 						<h3>
-							Boids in Three.js
+							BMI Cursor Perturbation experiment
 						</h3>
 
 						<p>
-							This visualization is based off of repositories by <a href="https://github.com/wetmore">wetmore</a>, <a href="https://github.com/mrdoob/">mrdood</a>, and <a href="https://github.com/dderiso/">dderiso's</a> <a href="http://www.datavizcourse.com/#/tutorial_threejs_boids">CME 161 tutorial</a>. The <a href="https://en.wikipedia.org/wiki/Boids">Boids algorithm</a> was created by Craig Reynolds in 1986. It simulates flocking patterns of birds, which is an emergent behavior that arises from the simple rules of separation, alignment, and cohesion. In my rendition of this visualization, I've added the additional feature to have all members of a particular flock have the same color. This is also an emergent property, as the boids have only local rules regarding color assignment. The "color_rogueness" parameter adjusts the strength of tendency for each boid to consider themselves as a member of their nearest flock; the higher the value, the more likely the boids are to switch their color.
+							
 							<div id="container">
-								<canvas id="three_boid"></canvas>
+								<canvas id="pca_plot"></canvas>
+							</div>
+							<div class="well">
+								Time:&nbsp&nbsp
+								<input id="time_slider" type="text" />
 							</div>
 
 							<hr>
@@ -61,7 +66,7 @@
 		<!-- begin footer -->
 		<div id="footer">
 			<div class="container">
-				<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="../../assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Blue Sheffer</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/dderiso/stanford_data_viz_course" rel="dct:source">https://github.com/dderiso/stanford_data_viz_course</a>.</p>
+				<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="../../assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Blue Sheffer</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></p>
 			</div>
 		</div>
 		<!-- end footer -->
@@ -71,7 +76,9 @@
 		<!-- General Utilities (no dependencies) -->
 		<script src="../../assets/js/libs/ui/dat.gui.min.js"></script>
 		<script src="../../assets/js/libs/ui/stats.min.js"></script>
-
+		<script src='../../assets/js/libs/renderers/d3.min.js'></script>
+		<script src='../../assets/js/libs/util/underscore-min.js'></script>
+		<script src='../../assets/js/libs/util/bootstrap-slider.js'></script>
 		<!-- Renderer -->
 		<script src="../../assets/js/libs/renderers/three/three.min.js"></script>
 
@@ -80,20 +87,20 @@
 		<script src="../../assets/js/libs/renderers/three/plugins/OrbitControls.js"></script>
 		<script src="../../assets/js/libs/renderers/three/plugins/DeviceOrientationControls.js"></script>
 
-		<!-- Physics (boids) -->
+		<!-- Physics (trials) -->
 		<script src="../../assets/js/libs/maths/vector3.js"></script>
-		<script src="../../assets/js/libs/physics/boids.js"></script>
+		<script src="../../assets/js/libs/physics/physics_neuro_trial.js"></script>
 
 		<!-- End General JS Libraries -->
 
 
 		<!-- Your JS Files (please modify the actual file contents) -->
 
-		<!-- Modifications to the physics object (boids) to work with the renderer (three) -->
-		<script src="../../assets/js/main/boids_prototypes_for_three.js"></script>
+		<!-- Modifications to the physics object (trials) to work with the renderer (three) -->
+		<script src="../../assets/js/main/neuro_trial_prototypes.js"></script>
 		
 		<!-- Main program that joins renderer (three) to physics (boid) -->
-		<script src="../../assets/js/main/boids_three.js"></script>
+		<script src="../../assets/js/main/neuro_trial.js"></script>
 
 		<!-- End Your JS Files -->
 	</body>

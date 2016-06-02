@@ -22,6 +22,12 @@ def send_assets_html(path):
 def send_viz():
 	return send_from_directory('app/assets/html','viz.html')
 
+@app.route('/neural_data/<string:condition>', methods=['GET'])
+def get_neural_data(condition):
+	filename = condition + "data.json"
+	with open(os.path.join("app/assets/data/", filename)) as data_file:
+		return json.dumps(json.load(data_file), sort_keys=True)
+
 @app.route('/trellis', methods=['GET'])
 def get_trellis():
 	with open('app/assets/data/trellis.json') as data_file:
@@ -68,7 +74,7 @@ def get_graph_limit(n_entries):
 
 if __name__ == "__main__":
 	port = int(os.environ.get("PORT", 5050))
-	app.run(host='0.0.0.0', port=port, debug=False)
+	app.run(host='0.0.0.0', port=port, debug=True)
 
 # set debug=True if you want to have auto-reload on changes
 # this is great for developing
