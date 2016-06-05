@@ -9,25 +9,31 @@ def main():
 		right_filename = 'jumpAt' + conditions[cond] + 'right.mat'
 		mat_contents_left = sio.loadmat(left_filename)
 		mat_contents_right = sio.loadmat(right_filename)
-		left = mat_contents_left['lowDXleft']
-		right = mat_contents_right['lowDXright']
+		left_fr = mat_contents_left['lowDXleft']
+		right_fr = mat_contents_right['lowDXright']
+		left_cursor = mat_contents_left['cursorPositionsLeft']
+		right_cursor = mat_contents_right['cursorPositionsRight']
 
-		num_left_trials, T, dim = np.shape(left)
-		num_right_trials, _, _ = np.shape(right)
+		num_left_trials, T, dim = np.shape(left_fr)
+		num_right_trials, _, _ = np.shape(right_fr)
 		d = {}
 		all_trial_dict = {}
 		for trial in range(num_left_trials): 
 			trial_dict = {}
 			all_time_dict = {}
 			for t in range(T):
-				x = left[trial, t, 0]
-				y = left[trial, t, 1]
-				z = left[trial, t, 2]
+				x = left_fr[trial, t, 0]
+				y = left_fr[trial, t, 1]
+				z = left_fr[trial, t, 2]
+				c_x = left_cursor[trial, t, 0]
+				c_y = left_cursor[trial, t, 1]
 				if not np.isnan(x):
 					time_dict = {}
 					time_dict['x'] = x
 					time_dict['y'] = y
 					time_dict['z'] = z
+					time_dict['c_x'] = c_x
+					time_dict['c_y'] = c_y
 					all_time_dict[t] = time_dict
 			trial_dict['direction'] = 'left'
 			trial_dict['time'] = all_time_dict
@@ -36,20 +42,25 @@ def main():
 			trial_dict = {}
 			all_time_dict = {}
 			for t in range(T):
-				x = right[trial, t, 0]
-				y = right[trial, t, 1]
-				z = right[trial, t, 2]
+				x = right_fr[trial, t, 0]
+				y = right_fr[trial, t, 1]
+				z = right_fr[trial, t, 2]
+				c_x = right_cursor[trial, t, 0]
+				c_y = right_cursor[trial, t, 1]
 				if not np.isnan(x):
 					time_dict = {}
 					time_dict['x'] = x
 					time_dict['y'] = y
 					time_dict['z'] = z
+					time_dict['c_x'] = c_x
+					time_dict['c_y'] = c_y
 					all_time_dict[t] = time_dict
 			trial_dict['direction'] = 'right'
 			trial_dict['time'] = all_time_dict
 			all_trial_dict[trial + num_left_trials] = trial_dict
-
 		d['trial'] = all_trial_dict
+		d['start'] = int(mat_contents_left['startTimeBeforeJump'][0][0])
+		d['end'] = int(mat_contents_left['endTimeAfterJump'][0][0])
 		with open(conditions[cond] + 'data.json', 'w') as outfile:
 			json.dump(d, outfile, sort_keys=True, indent=4)
 

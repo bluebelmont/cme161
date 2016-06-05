@@ -5,13 +5,14 @@ Modified by https://github.com/dderiso (2016) to expose alignment, separation, a
 
 */
 
-var Trial = function(i, trial_dict) {
+var Trial = function(i, trial_dict, num_trials) {
 
     // depends on Vector3 
     var vector = new Vector3();
     this.position = new Vector3();
+
     this.direction = trial_dict["direction"];
-    for (var start = 0; start < 64; start++) {
+    for (var start = 0; start < num_trials; start++) {
         if (start in trial_dict["time"]) {
             this.position.x = trial_dict["time"][start]["x"];
             this.position.y = trial_dict["time"][start]["y"];

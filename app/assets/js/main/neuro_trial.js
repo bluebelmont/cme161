@@ -38,12 +38,7 @@ controls.addEventListener('change', function(){
 // axes
 var axes = new THREE.AxisHelper2(SCENE_WIDTH);
 axes.update();
-container.add(axes.mesh);
 
-// bounding box
-var bounding_box = new THREE.BoundingBoxHelper(container); // can also be tied to scene but since our objects are in the container we tie it here
-bounding_box.update(); // render
-container.add(bounding_box);
 
 // stats (fps graph)
 var stats = new Stats();
@@ -61,8 +56,25 @@ directional_light.position.set(1,1,1);
 directional_light.name = "directional_light";
 scene.add(directional_light);
 
+var step = .3; //speed of visualization
+var max_time = 400;
+
+
+
 // ------------------------------------------------------------------------------------------------
 // user interface
+
+//time slider
+var time_slider = new Slider(
+    "#time_slider", {
+      "id": "time_slider",
+      "min": 0,
+      "max": max_time,
+      "value": 0,
+      "step": step,
+      "tooltip": "hide"
+  });
+
 
 // dat.gui
 var gui = new dat.GUI();
@@ -76,42 +88,49 @@ var controls_state = {
     "directional_light": true,
     "ambient_light_intensity": 1,
     "directional_light_intensity": 1,
-    "show_axis": true,
-    "show_bounding_box": true
+    "show_axis": false,
+    "step": step,
+    "pause": false
 };
+
+
 
 gui.add(controls_state, 'ambient_light')
 .onChange(function(on) {
     scene.getObjectByName('ambient_light').intensity = 1 * on;
+    renderer.render(scene, camera);
 });
 
 gui.add(controls_state, 'directional_light')
 .onChange(function(on) {
     scene.getObjectByName('directional_light').intensity = 1 * on;
+    renderer.render(scene, camera);
 });
 
 gui.add(controls_state, 'ambient_light_intensity', 0, 1)
 .onChange(function(value) {
     scene.getObjectByName('ambient_light').intensity = value;
+    renderer.render(scene, camera);
 });
 
 gui.add(controls_state, 'directional_light_intensity', 0, 1)
 .onChange(function(value) {
     scene.getObjectByName('directional_light').intensity = value;
+    renderer.render(scene, camera);
 });
 
 gui.add(controls_state, 'show_axis')
 .onChange(function(on) {
     if (on) { container.add(axes.mesh);    } 
     else    { container.remove(axes.mesh); }
+    renderer.render(scene, camera);
 });
 
-gui.add(controls_state, 'show_bounding_box')
-.onChange(function(on) {
-    if (on) { container.add(bounding_box);    } 
-    else    { container.remove(bounding_box); }
+gui.add(controls_state, 'step', 0, 2).step(.1)
+.onChange(function(value) {
+    step = value;
+    time_slider.setAttribute("step", step);
 });
-
 
 
 
@@ -120,17 +139,16 @@ gui.add(controls_state, 'show_bounding_box')
 
 
 
-var n = 64,
+var num_trials;
 trials = [];
-var max_time = 400;
 
-var _60data;
+
 
 d3.json("/neural_data/60", function(error, my_data){
     if (error) alert("Could not load data");
-    _60data = my_data;
-    for (var i = 0; i < n; i++) {
-        var t = new Trial(i, _60data["trial"][i]);
+    num_trials = Object.keys(my_data["trial"]).length
+    for (var i = 0; i < num_trials; i++) {
+        var t = new Trial(i, my_data["trial"][i], num_trials);
         t.set_parameters();
         t.init_mesh_obj(); 
         container.add(t.mesh);
@@ -138,36 +156,14 @@ d3.json("/neural_data/60", function(error, my_data){
         renderer.render(scene, camera);
     }
 
-    var step = .3
-    var time_slider = new Slider(
-        "#time_slider", {
-          "id": "time_slider",
-          "min": 0,
-          "max": max_time,
-          "value": 0,
-          "step": step,
-          "tooltip": "hide"
-      });
-
-
-
-    time_slider.on("slide", function(e) {
-        for (var i = 0; i < n; i++) {
-            var t = trials[i];
-            t.run(e);
-            t.update_mesh();
-        }
-        renderer.render(scene, camera);
-    });
     var time = 0;
-    console.log(step);
 
     function animate() {
         // start stats recording
         stats.begin();
 
         // render boids
-        for (var i = 0; i < n; i++) {
+        for (var i = 0; i < num_trials; i++) {
             var t = trials[i];
             t.run(time);
             t.update_mesh();
@@ -178,8 +174,35 @@ d3.json("/neural_data/60", function(error, my_data){
         // end stats recording
         stats.end();
         time += step;
+        time_slider.setValue(time, false, false);
+        
         // run again
-        requestAnimationFrame(animate);
+        if(!controls_state.pause) requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
+
+    gui.add(controls_state, 'pause')
+    .onChange(function(pause_on) {
+        if(!pause_on) requestAnimationFrame(animate);
+    });
+
+    time_slider.on("slide", function(e) {
+        time = e;
+        for (var i = 0; i < num_trials; i++) {
+            var t = trials[i];
+            t.run(time);
+            t.update_mesh();
+        }
+        renderer.render(scene, camera);
+    });
+
+    time_slider.on("change", function(e) {
+        time = e.newValue;
+        for (var i = 0; i < num_trials; i++) {
+            var t = trials[i];
+            t.run(time);
+            t.update_mesh();
+        }
+        renderer.render(scene, camera);
+    });
 });
