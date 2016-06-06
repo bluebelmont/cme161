@@ -9,6 +9,9 @@ d3.json("/neural_data/60", function(error, my_data){
     // constants
     var SCENE_WIDTH = SCENE_HEIGHT = 500;
 
+    var gui = new dat.GUI();
+    document.getElementById("dat").appendChild(gui.domElement);
+
     // bind renderer (THREE.WebGLRenderer ==> GPU!) to canvas, set size, and enable antialiasing
     var canvas = document.getElementById(viz_canvas_id);
     var renderer = new THREE.WebGLRenderer({ 
@@ -44,7 +47,7 @@ d3.json("/neural_data/60", function(error, my_data){
 
     // stats (fps graph)
     var stats = new Stats();
-    document.getElementById(viz_container_id).appendChild(stats.domElement); // add stats to the container
+    document.getElementById("stats").appendChild(stats.domElement); // add stats to the container
 
     // ------------------------------------------------------------------------------------------------
     // lights
@@ -145,8 +148,7 @@ d3.json("/neural_data/60", function(error, my_data){
 
 
     // dat.gui
-    var gui = new dat.GUI();
-    document.getElementById(viz_container_id).appendChild( gui.domElement );
+    
 
     var controls_state = {
         "ambient_light": true,
@@ -209,7 +211,7 @@ d3.json("/neural_data/60", function(error, my_data){
 
 
     for (var i = 0; i < num_trials; i++) {
-        var t = new Trial(i, my_data["trial"][i], num_trials);
+        var t = new Trial(i, my_data["trial"][i], max_time);
         t.set_parameters();
         t.init_mesh_obj(); 
         container.add(t.mesh);
@@ -231,7 +233,9 @@ d3.json("/neural_data/60", function(error, my_data){
 
     function animate() {
         // start stats recording
-        stats.begin();
+
+        if (time < max_time) {
+            stats.begin();
 
         // render boids
         for (var i = 0; i < num_trials; i++) {
@@ -245,7 +249,9 @@ d3.json("/neural_data/60", function(error, my_data){
         // end stats recording
         stats.end();
 
+        
         circle_coordinates = compute_cursor_position(time);
+        
 
         circle.attr("cx", c_x(circle_coordinates[0]))
         .attr("cy", c_y(circle_coordinates[1]));
@@ -253,8 +259,7 @@ d3.json("/neural_data/60", function(error, my_data){
 
         time += step;
         
-
-        
+    }
         // run again
         if(!controls_state.pause) requestAnimationFrame(animate);
     }

@@ -9,27 +9,13 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../../assets/css/slider_style.css" rel="stylesheet">
 	<link href="../../assets/css/style.css" rel="stylesheet">
-	<style type="text/css">
-		path { 
-			stroke: steelblue;
-			stroke-width: 2;
-			fill: none;
-		}
-
-		.axis path,
-		.axis line {
-			fill: none;
-			stroke: grey;
-			stroke-width: 1;
-			shape-rendering: crispEdges;
-		}
-
-	</style>
 </head>
 <body>
+	
 	<!-- begin wrap -->		
 	<div id="wrap">
-
+		<div id="stats"></div>
+		<div id="dat"></div>
 		<!-- begin container -->
 		<div class="container">
 
@@ -56,16 +42,18 @@
 						<p>
 							
 							<div id="container">
-								<canvas id="pca_plot"></canvas>
+								<canvas id="pca_plot" class ="plot"></canvas>
+								<div id="cursor_plot" class="plot"></div>
 							</div>
-							<div class="well">
+							
+							<br />
+							
+							<div class="controls" >
 								Time:&nbsp&nbsp
-								<input id="time_slider"/>
+								<input id="time_slider" cl/>
 							</div>
 
-							<div id="cursor_plot">
-
-							</div>
+							
 							<hr>
 
 						</div>

@@ -63,9 +63,25 @@ body {
   fill: #fff;
 }
 
+.plot {
+  float: left;
+}
+
+.controls {
+  clear: left;
+  margin-top: 100px;
+}
+
+path { 
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: grey;
+  stroke-width: 1;
   shape-rendering: crispEdges;
 }
