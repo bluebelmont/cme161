@@ -53,6 +53,10 @@ body {
   padding-right: 15px;
 }
 
+#time .slider-handle {
+  background: green;
+}
+
 
 .bar rect {
   fill: steelblue;

@@ -135,6 +135,22 @@ d3.json("/neural_data/60", function(error, my_data){
     var end_time = my_data['end']; 
     var max_time = Math.abs(start_time) + Math.abs(end_time);
 
+    var num_ticks = 4;
+    var timer_ticks = [];
+    var timer_label = [];
+    var tick_interval = max_time/num_ticks;
+    console.log(tick_interval);
+
+    for (var tick_time = 0; tick_time <= max_time; tick_time += tick_interval) {
+        timer_ticks.push(tick_time);
+        if (tick_time + start_time != 0) {
+            timer_label.push(tick_time + start_time);
+        }
+        else {
+            timer_label.push("Jump");
+        }
+    }
+
     //time slider
     var time_slider = new Slider(
         "#time_slider", {
@@ -143,7 +159,9 @@ d3.json("/neural_data/60", function(error, my_data){
           "max": max_time, //for simplicity of logic, have slider go from 0-max_time
           "value": 0,
           "step": step,
-          "tooltip": "hide"
+          "tooltip": "hide",
+          "ticks": timer_ticks,
+          "ticks_labels": timer_label,
       });
 
 
@@ -157,7 +175,7 @@ d3.json("/neural_data/60", function(error, my_data){
         "directional_light_intensity": 1,
         "show_axis": false,
         "step": step,
-        "pause": false //TODO: change this to actual button
+        "play": true 
     };
 
 
@@ -204,11 +222,8 @@ d3.json("/neural_data/60", function(error, my_data){
     // --------------------------------------------------------- 
     // add trials
 
-    var num_trials;
-    trials = [];
-    
-    num_trials = Object.keys(my_data["trial"]).length
-
+    var num_trials = Object.keys(my_data["trial"]).length
+    var trials = [];
 
     for (var i = 0; i < num_trials; i++) {
         var t = new Trial(i, my_data["trial"][i], max_time);
@@ -248,27 +263,39 @@ d3.json("/neural_data/60", function(error, my_data){
 
         // end stats recording
         stats.end();
-
         
         circle_coordinates = compute_cursor_position(time);
         
-
         circle.attr("cx", c_x(circle_coordinates[0]))
         .attr("cy", c_y(circle_coordinates[1]));
         time_slider.setValue(time, false, false);
 
         time += step;
-        
+        if(controls_state.play) requestAnimationFrame(animate); // run again
     }
-        // run again
-        if(!controls_state.pause) requestAnimationFrame(animate);
+    else {
+        controls_state.play = false;
+        var btn = document.getElementsByClassName("glyphicon glyphicon-pause");
+        btn[0].className = "glyphicon glyphicon-play";
     }
+}
 
-    requestAnimationFrame(animate);
+requestAnimationFrame(animate);
 
-    gui.add(controls_state, 'pause')
-    .onChange(function(pause_on) {
-        if(!pause_on) requestAnimationFrame(animate);
+    //add play/pause functionalty
+    document.getElementById('play_btn').addEventListener("click", function (){
+        if(controls_state.play){
+            controls_state.play = false;
+            var btn = document.getElementsByClassName("glyphicon glyphicon-pause");
+            btn[0].className = "glyphicon glyphicon-play";
+        }
+        else {
+            controls_state.play = true;
+            var btn = document.getElementsByClassName("glyphicon glyphicon-play");
+            btn[0].className = "glyphicon glyphicon-pause";
+            if (time >= max_time) time = 0; //reset if at end
+            requestAnimationFrame(animate);
+        }
     });
 
     time_slider.on("slide", function(e) {
@@ -290,4 +317,7 @@ d3.json("/neural_data/60", function(error, my_data){
         }
         renderer.render(scene, camera);
     });
+
+
+
 });
