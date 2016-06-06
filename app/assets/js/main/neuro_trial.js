@@ -1,4 +1,4 @@
-d3.json("/neural_data/30", function(error, my_data){
+d3.json("/neural_data/60", function(error, my_data){
 
     if (error) alert("Could not load data");
     var viz_container_id = "container"; 
@@ -61,14 +61,17 @@ d3.json("/neural_data/30", function(error, my_data){
     // ------------------------------------------------------------------------------------------------
     // cursor plot
 
+    cursor_radius = 5;
+
     var margin = {top: 30, right: 20, bottom: 30, left: 50},
     width = 270 - margin.left - margin.right,
     height = 270 - margin.top - margin.bottom;
 
     var c_xlim = [-150, 150]; //in future this value should be loaded, but this works for now
-    var c_ylim = [-150, 150]; 
+    var c_ylim = [0, 150]; 
 
-    var c_trial = 21;
+    var c_trial = 0;
+    var start_time = 0;
 
     var c_x = d3.scale.linear().range([0, width]);
     var c_y = d3.scale.linear().range([height, 0]);
@@ -82,7 +85,7 @@ d3.json("/neural_data/30", function(error, my_data){
     var c_yAxis = d3.svg.axis().scale(c_y)
     .orient("left").ticks(5);
 
-    cursor_arr = Object.keys(my_data["trial"][c_trial]["time"]).map(function(k) { 
+    var cursor_arr = Object.keys(my_data["trial"][c_trial]["time"]).map(function(k) { 
         return my_data["trial"][c_trial]["time"][k] 
     });
 
@@ -97,24 +100,28 @@ d3.json("/neural_data/30", function(error, my_data){
     var svg = d3
     .select("#cursor_plot")
     .append("svg")
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width + margin.left + margin.right)
     .append("g")
-        .attr("transform", 
-              "translate(" + margin.left + "," + margin.top + ")");
-    
+    .attr("transform", 
+      "translate(" + margin.left + "," + margin.top + ")");
     svg.append("path")
-        .attr("class", "line")
-        .attr('d', valueline(cursor_arr));
+    .attr("class", "line")
+    .attr('d', valueline(cursor_arr));
 
     svg.append("g")                // Add the X Axis
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(c_xAxis);
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(c_xAxis);
 
     svg.append("g")               // Add the Y Axis
-        .attr("class", "y axis")
-        .call(c_yAxis);
+    .attr("class", "y axis")
+    .call(c_yAxis);
+
+    var circle = svg.append("circle")
+    .attr("cx", c_x(cursor_arr[0].c_x))
+    .attr("cy", c_y(cursor_arr[0].c_y))
+    .attr("r", cursor_radius);        
 
 
     // ------------------------------------------------------------------------------------------------
@@ -199,7 +206,6 @@ d3.json("/neural_data/30", function(error, my_data){
     trials = [];
     
     num_trials = Object.keys(my_data["trial"]).length
-    
 
 
     for (var i = 0; i < num_trials; i++) {
@@ -212,6 +218,16 @@ d3.json("/neural_data/30", function(error, my_data){
     }
 
     var time = 0;
+
+    function compute_cursor_position(time){
+        var floor_x = cursor_arr[Math.floor(time)].c_x;
+        var floor_y = cursor_arr[Math.floor(time)].c_y;
+        var ceil_x = cursor_arr[Math.ceil(time)].c_x;
+        var ceil_y =  cursor_arr[Math.ceil(time)].c_y;
+        var c_x = floor_x + (ceil_x - floor_x)*(time-Math.floor(time));
+        var c_y = floor_y + (ceil_y - floor_y)*(time-Math.floor(time));
+        return [c_x, c_y]
+    }   
 
     function animate() {
         // start stats recording
@@ -228,8 +244,16 @@ d3.json("/neural_data/30", function(error, my_data){
 
         // end stats recording
         stats.end();
-        time += step;
+
+        circle_coordinates = compute_cursor_position(time);
+
+        circle.attr("cx", c_x(circle_coordinates[0]))
+        .attr("cy", c_y(circle_coordinates[1]));
         time_slider.setValue(time, false, false);
+
+        time += step;
+        
+
         
         // run again
         if(!controls_state.pause) requestAnimationFrame(animate);
