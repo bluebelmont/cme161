@@ -79,16 +79,14 @@ body {
   margin-top: 100px;
 }
 
-path .left { 
-  stroke: #b47846; /*change this*/
+path { 
+  stroke: steelblue;
   stroke-width: 2;
   fill: none;
 }
 
-path .right { 
-  stroke: #4682b4; /*change this*/
-  stroke-width: 2;
-  fill: none;
+.left {
+  stroke: #b47846;
 }
 
 .axis path,

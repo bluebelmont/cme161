@@ -35,6 +35,7 @@ var Cursor_Plot = function(trial_dict, plot_size, plot_x, plot_y, margin, height
     	"translate(" + margin.left + "," + margin.top + ")");
     
 
+
     this.svg.append("path")
     .attr("class", trial_dict["direction"])
     .attr('d', valueline(cursor_arr));
