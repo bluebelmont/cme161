@@ -9,6 +9,22 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../../assets/css/slider_style.css" rel="stylesheet">
 	<link href="../../assets/css/style.css" rel="stylesheet">
+	<style type="text/css">
+		path { 
+			stroke: steelblue;
+			stroke-width: 2;
+			fill: none;
+		}
+
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: grey;
+			stroke-width: 1;
+			shape-rendering: crispEdges;
+		}
+
+	</style>
 </head>
 <body>
 	<!-- begin wrap -->		
@@ -44,7 +60,7 @@
 							</div>
 							<div class="well">
 								Time:&nbsp&nbsp
-								<input id="time_slider" type="text" />
+								<input id="time_slider"/>
 							</div>
 
 							<div id="cursor_plot">
