@@ -69,6 +69,9 @@ body {
 
 .plot {
   float: left;
+  width: 500px;
+  height: 500px;
+  margin: 10px;
 }
 
 .controls {
@@ -76,8 +79,14 @@ body {
   margin-top: 100px;
 }
 
-path { 
-  stroke: steelblue;
+path .left { 
+  stroke: #b47846; /*change this*/
+  stroke-width: 2;
+  fill: none;
+}
+
+path .right { 
+  stroke: #4682b4; /*change this*/
   stroke-width: 2;
   fill: none;
 }

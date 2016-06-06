@@ -13,10 +13,10 @@ Trial.prototype.create_material = function() {
     // assign a random color from HSL space
     this.color = new THREE.Color(); // http://threejs.org/docs/#Reference/Math/Color
     if (this.direction == "left") {
-        this.color.setHSL(1, .8, .2);    
+        this.color.setHex(0xb47846);    
     } 
     else {
-        this.color.setHSL(.6, .8, .2);      
+        this.color.setHex(0x4682b4);      
     }
 
     this.material = new THREE.MeshPhongMaterial({

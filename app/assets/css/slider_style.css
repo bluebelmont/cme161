@@ -27,6 +27,9 @@
   display: inline-block;
   vertical-align: middle;
   position: relative;
+  margin-right: 10px; 
+  margin-left: 10px; 
+  margin-top: 14px; 
 }
 .slider.slider-horizontal {
   width: 210px;
@@ -35,7 +38,7 @@
 .slider.slider-horizontal .slider-track {
   height: 10px;
   width: 100%;
-  margin-top: -5px;
+  margin-top: 0px;
   top: 50%;
   left: 0;
 }

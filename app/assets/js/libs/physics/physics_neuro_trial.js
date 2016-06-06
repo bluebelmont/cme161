@@ -1,11 +1,4 @@
-/* 
-
-Based on work by https://github.com/wetmore, https://github.com/mrdoob/
-Modified by https://github.com/dderiso (2016) to expose alignment, separation, and cohesion as public properties 
-
-*/
-
-var Trial = function(i, trial_dict, max_time) {
+var Trial = function(trial_dict, max_time) {
 
     // depends on Vector3 
     var vector = new Vector3();
@@ -23,8 +16,8 @@ var Trial = function(i, trial_dict, max_time) {
         this.advance(time);
     }
 
+    //in future, it'd be nice to interpolate the points with a smoother function
     this.advance = function(time) {
-
         floor_x = trial_dict["time"][Math.floor(time)]["x"];
         floor_y = trial_dict["time"][Math.floor(time)]["y"];
         floor_z = trial_dict["time"][Math.floor(time)]["z"];

@@ -1,8 +1,9 @@
-d3.json("/neural_data/60", function(error, my_data){
+d3.json("/neural_data/30", function(error, my_data){
 
     if (error) alert("Could not load data");
     var viz_container_id = "container"; 
     var viz_canvas_id = "pca_plot"; 
+    var num_trials = Object.keys(my_data["trial"]).length;
     // ------------------------------------------------------------------------------------------------
     // renderer, camera, scene 
 
@@ -44,11 +45,6 @@ d3.json("/neural_data/60", function(error, my_data){
     var axes = new THREE.AxisHelper2(SCENE_WIDTH); //TODO: fix the scale
     axes.update();
 
-
-    // stats (fps graph)
-    var stats = new Stats();
-    document.getElementById("stats").appendChild(stats.domElement); // add stats to the container
-
     // ------------------------------------------------------------------------------------------------
     // lights
 
@@ -62,84 +58,55 @@ d3.json("/neural_data/60", function(error, my_data){
     scene.add(directional_light);
 
     // ------------------------------------------------------------------------------------------------
+    // data properties
+
+    var num_trials = Object.keys(my_data["trial"]).length;    
+    var start_time = -my_data['start']; //stored in dict as seconds before start, so flip sign
+    var end_time = my_data['end']; 
+    var max_time = Math.abs(start_time) + Math.abs(end_time);
+
+    // ------------------------------------------------------------------------------------------------
     // cursor plot
 
-    cursor_radius = 5;
+    var cursor_plots = [];
+    var plot_matrix_ncols = Math.ceil(Math.sqrt(num_trials));
+    var plot_matrix_nrows = Math.ceil(Math.sqrt(num_trials));
 
-    var margin = {top: 30, right: 20, bottom: 30, left: 50},
-    width = 270 - margin.left - margin.right,
-    height = 270 - margin.top - margin.bottom;
 
-    var c_xlim = [-150, 150]; //in future this value should be loaded, but this works for now
-    var c_ylim = [0, 150]; 
+    var plot_size = SCENE_WIDTH/plot_matrix_ncols;
+    var plot_count = 0;
 
-    var c_trial = 0;
-    var start_time = 0;
+    var margin = {top: -10, right: -5, bottom: -10, left: -5},
+    width = plot_size - margin.left - margin.right,
+    height = plot_size - margin.top - margin.bottom;
 
-    var c_x = d3.scale.linear().range([0, width]);
-    var c_y = d3.scale.linear().range([height, 0]);
+    function make_plot_matrix() {
+        for (var col = 0; col < plot_matrix_ncols; col++) {
+            for (var row = 0; row < plot_matrix_nrows; row++) {
+                var plot = new Cursor_Plot(my_data["trial"][plot_count], plot_size, col*plot_size, row*plot_size, margin, width, height);
+                cursor_plots.push(plot);
+                plot_count++;
+                if (plot_count == num_trials) {
+                    return;
+                }
+            }
+        }
+    }
 
-    c_x.domain(c_xlim);
-    c_y.domain(c_ylim);
+    make_plot_matrix();
 
-    var c_xAxis = d3.svg.axis().scale(c_x)
-    .orient("bottom").ticks(5);
 
-    var c_yAxis = d3.svg.axis().scale(c_y)
-    .orient("left").ticks(5);
-
-    var cursor_arr = Object.keys(my_data["trial"][c_trial]["time"]).map(function(k) { 
-        return my_data["trial"][c_trial]["time"][k] 
-    });
-
-    var valueline = d3.svg.line()
-    .x(function(d) { 
-        return (c_x(d.c_x)); 
-    })
-    .y(function(d) {
-        return (c_y(d.c_y)); 
-    });
-
-    var svg = d3
-    .select("#cursor_plot")
-    .append("svg")
-    .attr("height", height + margin.top + margin.bottom)
-    .attr("width", width + margin.left + margin.right)
-    .append("g")
-    .attr("transform", 
-      "translate(" + margin.left + "," + margin.top + ")");
-    svg.append("path")
-    .attr("class", "line")
-    .attr('d', valueline(cursor_arr));
-
-    svg.append("g")                // Add the X Axis
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(c_xAxis);
-
-    svg.append("g")               // Add the Y Axis
-    .attr("class", "y axis")
-    .call(c_yAxis);
-
-    var circle = svg.append("circle")
-    .attr("cx", c_x(cursor_arr[0].c_x))
-    .attr("cy", c_y(cursor_arr[0].c_y))
-    .attr("r", cursor_radius);        
 
 
     // ------------------------------------------------------------------------------------------------
     // user interface
 
     var step = .3; //speed of visualization
-    var start_time = -my_data['start']; //stored in dict as seconds before start, so flip sign
-    var end_time = my_data['end']; 
-    var max_time = Math.abs(start_time) + Math.abs(end_time);
 
     var num_ticks = 4;
     var timer_ticks = [];
     var timer_label = [];
     var tick_interval = max_time/num_ticks;
-    console.log(tick_interval);
 
     for (var tick_time = 0; tick_time <= max_time; tick_time += tick_interval) {
         timer_ticks.push(tick_time);
@@ -222,11 +189,11 @@ d3.json("/neural_data/60", function(error, my_data){
     // --------------------------------------------------------- 
     // add trials
 
-    var num_trials = Object.keys(my_data["trial"]).length
+
     var trials = [];
 
     for (var i = 0; i < num_trials; i++) {
-        var t = new Trial(i, my_data["trial"][i], max_time);
+        var t = new Trial(my_data["trial"][i], max_time);
         t.set_parameters();
         t.init_mesh_obj(); 
         container.add(t.mesh);
@@ -236,38 +203,27 @@ d3.json("/neural_data/60", function(error, my_data){
 
     var time = 0;
 
-    function compute_cursor_position(time){
-        var floor_x = cursor_arr[Math.floor(time)].c_x;
-        var floor_y = cursor_arr[Math.floor(time)].c_y;
-        var ceil_x = cursor_arr[Math.ceil(time)].c_x;
-        var ceil_y =  cursor_arr[Math.ceil(time)].c_y;
-        var c_x = floor_x + (ceil_x - floor_x)*(time-Math.floor(time));
-        var c_y = floor_y + (ceil_y - floor_y)*(time-Math.floor(time));
-        return [c_x, c_y]
-    }   
-
     function animate() {
         // start stats recording
 
         if (time < max_time) {
-            stats.begin();
+
 
         // render boids
         for (var i = 0; i < num_trials; i++) {
             var t = trials[i];
+            var p = cursor_plots[i];
+            p.set_cursor_position(time);
             t.run(time);
             t.update_mesh();
+
+            //TODO: UPDATE CURSORS ON EACH PLOT
         }
         // render scene
         renderer.render(scene, camera);
 
         // end stats recording
-        stats.end();
-        
-        circle_coordinates = compute_cursor_position(time);
-        
-        circle.attr("cx", c_x(circle_coordinates[0]))
-        .attr("cy", c_y(circle_coordinates[1]));
+
         time_slider.setValue(time, false, false);
 
         time += step;
@@ -302,6 +258,8 @@ requestAnimationFrame(animate);
         time = e;
         for (var i = 0; i < num_trials; i++) {
             var t = trials[i];
+            var p = cursor_plots[i];
+            p.set_cursor_position(time);
             t.run(time);
             t.update_mesh();
         }
@@ -312,6 +270,8 @@ requestAnimationFrame(animate);
         time = e.newValue;
         for (var i = 0; i < num_trials; i++) {
             var t = trials[i];
+            var p = cursor_plots[i];
+            p.set_cursor_position(time);
             t.run(time);
             t.update_mesh();
         }
