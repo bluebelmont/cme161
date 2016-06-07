@@ -52,7 +52,6 @@ Trial.prototype.update_mesh = function() {
 
 Trial.prototype.filter_on = function () {
     if (!this.highlighted) {
-        console.log("fuck");
         this.material.transparent = true;
     } 
     else

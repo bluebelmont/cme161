@@ -68,6 +68,10 @@ var Cursor_Plot = function(i, trial_dict, plot_size, plot_x, plot_y, margin, hei
 
     var highlighted = false;
 
+    this.set_cursor_highlight = function (value) {
+    	highlighted = value;
+    }
+
     svg.on("click", function () {
     	if (!highlighted) {
     		highlighted = true;

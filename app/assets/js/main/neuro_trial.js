@@ -1,9 +1,11 @@
+
 d3.json("/neural_data/60", function(error, my_data){
 
     if (error) alert("Could not load data");
     var viz_container_id = "container"; 
     var viz_canvas_id = "pca_plot"; 
     var num_trials = Object.keys(my_data["trial"]).length;
+
     // ------------------------------------------------------------------------------------------------
     // renderer, camera, scene 
     // constants
@@ -11,7 +13,6 @@ d3.json("/neural_data/60", function(error, my_data){
 
     var gui = new dat.GUI();
     document.getElementById("dat").appendChild(gui.domElement);
-    gui.close();
 
     // bind renderer (THREE.WebGLRenderer ==> GPU!) to canvas, set size, and enable antialiasing
     var canvas = document.getElementById(viz_canvas_id);
@@ -97,9 +98,7 @@ d3.json("/neural_data/60", function(error, my_data){
 
     var num_highlighted_plots = 0;
     var set_trial_highlight = function(trial, value) {
-        trials[trial].highlighted = value;
-        console.log("set_trial_highlight: ", trial, value);
-        console.log(trials[trial]);
+        trials[trial].highlighted = value;                                              
     }
 
     var filter_trials = function(trial) {
@@ -201,7 +200,7 @@ d3.json("/neural_data/60", function(error, my_data){
         "ambient_light": true,
         "directional_light": true,
         "ambient_light_intensity": 1,
-        "directional_light_intensity": 1,
+        "directional_light_intensity": .7,
         "show_axis": false,
         "step": step,
         "play": true 
@@ -300,6 +299,20 @@ requestAnimationFrame(animate);
         }
     });
 
+    document.getElementById('reset_btn').addEventListener("click", function (){
+        for (var i = 0; i < num_trials; i++) {
+            var t = trials[i];
+            var p = cursor_plots[i];
+            p.set_cursor_highlight(false);
+            p.filter_off();
+            set_trial_highlight(i, false);
+            t.filter_off();
+            t.update_mesh();
+        }
+        renderer.render(scene, camera);
+        num_highlighted_plots = 0;
+    });
+
     time_slider.on("slide", function(e) {
         time = e;
         for (var i = 0; i < num_trials; i++) {
@@ -324,3 +337,4 @@ requestAnimationFrame(animate);
         renderer.render(scene, camera);
     });
 });
+
