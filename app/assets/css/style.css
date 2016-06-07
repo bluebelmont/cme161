@@ -57,12 +57,8 @@ body {
   background: green;
 }
 
-a {
+.neuro {
     color: #699864;
-}
-
-a:hover {
-    color: #3F602B;
 }
 
 .bar rect {
