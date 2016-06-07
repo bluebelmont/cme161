@@ -4,8 +4,8 @@ var Cursor_Plot = function(i, trial_dict, plot_size, plot_x, plot_y, margin, hei
 
 	var trial_num = i;
 
-    var c_xlim = [-150, 150]; //in future this value should be loaded, but this works for now
-    var c_ylim = [0, 150]; 
+    var c_xlim = [-120, 100]; //in future this value should be loaded, but this works for now
+    var c_ylim = [20, 120]; 
 
     var start_time = 0;
 
