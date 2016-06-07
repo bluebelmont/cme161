@@ -79,14 +79,24 @@ body {
   margin-top: 100px;
 }
 
-path { 
+.right_path { 
   stroke: steelblue;
   stroke-width: 2;
   fill: none;
 }
 
-.left {
+.left_path {
   stroke: #b47846;
+  stroke-width: 2;
+  fill: none;
+}
+
+.right_rect { 
+  fill: steelblue;
+}
+
+.left_rect {
+  fill: #b47846;
 }
 
 .axis path,

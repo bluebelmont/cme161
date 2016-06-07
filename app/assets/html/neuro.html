@@ -45,69 +45,72 @@
 								<canvas id="pca_plot" class ="plot"></canvas>
 								<div id="cursor_matrix" class="plot" width="500" height="500" style="width: 500px; height: 500px;"></div>
 							</div>
-						<p>
-						<div class="controls" >
-								Time:&nbsp&nbsp
-								<input id="time_slider" data-slider-id="time"/>&nbsp&nbsp
-								<button type="button" id="play_btn" class="btn btn-default btn-lg">
-									<span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-								</button>
+							<p>
+								<div class="controls" >
+									Time:&nbsp&nbsp
+									<input id="time_slider" data-slider-id="time"/>&nbsp&nbsp
+									<button type="button" id="play_btn" class="btn btn-default btn-lg">
+										<span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+									</button>
+									<button type="button" class="btn btn-default">Reset</button>
+								</div>
+
 							</div>
 
 						</div>
+						<!-- end row -->
 
-					</div>
-					<!-- end row -->
+					</div> 
+					<!-- end content -->
 
-				</div> 
-				<!-- end content -->
+				</div>
+				<!-- end container -->
 
 			</div>
-			<!-- end container -->
+			<!-- end wrap -->	
 
-		</div>
-		<!-- end wrap -->	
-
-		<!-- begin footer -->
-		<div id="footer">
-			<div class="container">
-				<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="../../assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Blue Sheffer</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></p>
+			<!-- begin footer -->
+			<div id="footer">
+				<div class="container">
+					<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="../../assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Blue Sheffer</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></p>
+				</div>
 			</div>
-		</div>
-		<!-- end footer -->
+			<!-- end footer -->
 
-		<!-- General JS Libraries (please don't modify these) -->
+			<!-- General JS Libraries (please don't modify these) -->
 
-		<!-- General Utilities (no dependencies) -->
-		<script src="../../assets/js/libs/ui/dat.gui.min.js"></script>
-		<script src="../../assets/js/libs/ui/stats.min.js"></script>
-		<script src='../../assets/js/libs/renderers/d3.min.js'></script>
-		<script src='../../assets/js/libs/util/underscore-min.js'></script>
-		<script src='../../assets/js/libs/util/bootstrap-slider.js'></script>
-		<!-- Renderer -->
-		<script src="../../assets/js/libs/renderers/three/three.min.js"></script>
+			<!-- General Utilities (no dependencies) -->
+			<script src="../../assets/js/libs/ui/dat.gui.min.js"></script>
+			<script src="../../assets/js/libs/ui/stats.min.js"></script>
+			<script src='../../assets/js/libs/renderers/d3.min.js'></script>
+			<script src='../../assets/js/libs/util/underscore-min.js'></script>
+			<script src='../../assets/js/libs/util/bootstrap-slider.js'></script>
+			<!-- Renderer -->
+			<script src="../../assets/js/libs/renderers/three/three.min.js"></script>
 
-		<!-- Renderer Plug-ins (depends on Three.js being loaded first) -->
-		<script src="../../assets/js/libs/renderers/three/plugins/AxesHelper2.js"></script>
-		<script src="../../assets/js/libs/renderers/three/plugins/OrbitControls.js"></script>
-		<script src="../../assets/js/libs/renderers/three/plugins/DeviceOrientationControls.js"></script>
+			<!-- Renderer Plug-ins (depends on Three.js being loaded first) -->
+			<script src="../../assets/js/libs/renderers/three/plugins/AxesHelper2.js"></script>
+			<script src="../../assets/js/libs/renderers/three/plugins/OrbitControls.js"></script>
+			<script src="../../assets/js/libs/renderers/three/plugins/DeviceOrientationControls.js"></script>
 
-		<!-- Physics (trials) -->
-		<script src="../../assets/js/libs/maths/vector3.js"></script>
-		<script src="../../assets/js/libs/physics/physics_neuro_trial.js"></script>
+			<!-- Physics (trials) -->
+			<script src="../../assets/js/libs/maths/vector3.js"></script>
+			<script src="../../assets/js/libs/physics/physics_neuro_trial.js"></script>
 
-		<!-- End General JS Libraries -->
+			<!-- End General JS Libraries -->
 
 
-		<!-- Your JS Files (please modify the actual file contents) -->
+			<!-- Your JS Files (please modify the actual file contents) -->
 
-		<!-- Modifications to the physics object (trials) to work with the renderer (three) -->
-		<script src="../../assets/js/main/neuro_trial_prototypes.js"></script>
-		<script src="../../assets/js/main/cursor_plot.js"></script>
-		
-		<!-- Main program that joins renderer (three) to physics (boid) -->
-		<script src="../../assets/js/main/neuro_trial.js"></script>
+			<!-- Modifications to the physics object (trials) to work with the renderer (three) -->
+			<script src="../../assets/js/main/neuro_trial_prototypes.js"></script>
+			<script src="../../assets/js/main/neuro_trial.js"></script>
+			
+			<script src="../../assets/js/main/cursor_plot.js"></script>
+			
+			<!-- Main program that joins renderer (three) to physics (boid) -->
+			
 
-		<!-- End Your JS Files -->
-	</body>
-	</html>
+			<!-- End Your JS Files -->
+		</body>
+		</html>

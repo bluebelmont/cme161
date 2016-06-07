@@ -3,11 +3,13 @@
 
 Trial.prototype.set_parameters = function() {
     this.radius = 20;
+    this.highlighted = false;
 }
 
 Trial.prototype.create_geometry = function() {
     this.geometry = new THREE.SphereGeometry(this.radius, 25, 25); //maybe change the size of this?
 }
+
 
 Trial.prototype.create_material = function() {
     // assign a random color from HSL space
@@ -23,8 +25,8 @@ Trial.prototype.create_material = function() {
         color: this.color,
         specular: 0x333333,
         shininess: .9,
-        transparent: true,
-        opacity: .75
+        transparent: false,
+        opacity: .2
     });
 }
 
@@ -32,7 +34,7 @@ Trial.prototype.create_mesh = function() {
     this.mesh = new THREE.Mesh(
         this.geometry,
         this.material
-    );
+        );
     this.mesh.position.set(this.position.x,this.position.y,this.position.z);
 
 }
@@ -48,5 +50,17 @@ Trial.prototype.update_mesh = function() {
     this.mesh.position.set(this.position.x ,this.position.y ,this.position.z);
 }
 
+Trial.prototype.filter_on = function () {
+    if (!this.highlighted) {
+        console.log("fuck");
+        this.material.transparent = true;
+    } 
+    else
+    {
+        this.material.transparent = false;
+    }
+}
 
-
+Trial.prototype.filter_off = function () {
+    this.material.transparent = false;
+}

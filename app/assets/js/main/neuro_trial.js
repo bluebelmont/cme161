@@ -1,4 +1,4 @@
-d3.json("/neural_data/30", function(error, my_data){
+d3.json("/neural_data/60", function(error, my_data){
 
     if (error) alert("Could not load data");
     var viz_container_id = "container"; 
@@ -6,12 +6,12 @@ d3.json("/neural_data/30", function(error, my_data){
     var num_trials = Object.keys(my_data["trial"]).length;
     // ------------------------------------------------------------------------------------------------
     // renderer, camera, scene 
-
     // constants
     var SCENE_WIDTH = SCENE_HEIGHT = 500;
 
     var gui = new dat.GUI();
     document.getElementById("dat").appendChild(gui.domElement);
+    gui.close();
 
     // bind renderer (THREE.WebGLRenderer ==> GPU!) to canvas, set size, and enable antialiasing
     var canvas = document.getElementById(viz_canvas_id);
@@ -66,6 +66,21 @@ d3.json("/neural_data/30", function(error, my_data){
     var max_time = Math.abs(start_time) + Math.abs(end_time);
 
     // ------------------------------------------------------------------------------------------------
+    // add trials
+
+
+    var trials = [];
+
+    for (var i = 0; i < num_trials; i++) {
+        var t = new Trial(my_data["trial"][i], max_time);
+        t.set_parameters();
+        t.init_mesh_obj(); 
+        container.add(t.mesh);
+        trials.push(t);
+        renderer.render(scene, camera);
+    }
+
+    // ------------------------------------------------------------------------------------------------
     // cursor plot
 
     var cursor_plots = [];
@@ -76,14 +91,61 @@ d3.json("/neural_data/30", function(error, my_data){
     var plot_size = SCENE_WIDTH/plot_matrix_ncols;
     var plot_count = 0;
 
-    var margin = {top: -10, right: -5, bottom: -10, left: -5},
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
     width = plot_size - margin.left - margin.right,
     height = plot_size - margin.top - margin.bottom;
+
+    var num_highlighted_plots = 0;
+    var set_trial_highlight = function(trial, value) {
+        trials[trial].highlighted = value;
+        console.log("set_trial_highlight: ", trial, value);
+        console.log(trials[trial]);
+    }
+
+    var filter_trials = function(trial) {
+        if (num_highlighted_plots > 0) {
+            cursor_plots[trial].filter_on()
+            trials[trial].filter_on();
+            num_highlighted_plots++;
+        }
+        else
+        {
+            num_highlighted_plots++;
+            for (var i = 0; i < num_trials; i++) {
+                var p = cursor_plots[i];
+                var t = trials[i];
+                p.filter_on();
+                t.filter_on();
+                t.update_mesh();
+            }
+        }
+        renderer.render(scene, camera);
+    }
+
+    var unfilter_trials = function(trial) {
+        num_highlighted_plots--;
+        if (num_highlighted_plots > 0) {
+            cursor_plots[trial].filter_on()
+            trials[trial].filter_on();
+        }
+        else
+        {
+            for (var i = 0; i < num_trials; i++) {
+                var p = cursor_plots[i];
+                p.filter_off();
+                var t = trials[i];
+                t.filter_off();
+                t.update_mesh();
+            }
+        }
+        renderer.render(scene, camera);
+    }
+
 
     function make_plot_matrix() {
         for (var col = 0; col < plot_matrix_ncols; col++) {
             for (var row = 0; row < plot_matrix_nrows; row++) {
-                var plot = new Cursor_Plot(my_data["trial"][plot_count], plot_size, col*plot_size, row*plot_size, margin, width, height);
+                var plot = new Cursor_Plot(plot_count, my_data["trial"][plot_count], plot_size, col*plot_size, row*plot_size, margin, width, height, filter_trials, unfilter_trials, set_trial_highlight);
                 cursor_plots.push(plot);
                 plot_count++;
                 if (plot_count == num_trials) {
@@ -186,21 +248,7 @@ d3.json("/neural_data/30", function(error, my_data){
 
 
 
-    // --------------------------------------------------------- 
-    // add trials
-
-
-    var trials = [];
-
-    for (var i = 0; i < num_trials; i++) {
-        var t = new Trial(my_data["trial"][i], max_time);
-        t.set_parameters();
-        t.init_mesh_obj(); 
-        container.add(t.mesh);
-        trials.push(t);
-        renderer.render(scene, camera);
-    }
-
+    //––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     var time = 0;
 
     function animate() {
@@ -216,8 +264,6 @@ d3.json("/neural_data/30", function(error, my_data){
             p.set_cursor_position(time);
             t.run(time);
             t.update_mesh();
-
-            //TODO: UPDATE CURSORS ON EACH PLOT
         }
         // render scene
         renderer.render(scene, camera);
@@ -277,7 +323,4 @@ requestAnimationFrame(animate);
         }
         renderer.render(scene, camera);
     });
-
-
-
 });
